@@ -1,26 +1,140 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+/* Direção de arte: ver DESIGN.md */
+@theme {
+  --color-ink: #171412;
+  --color-porcelain: #faf7f3;
+  --color-linen: #f1eae2;
+  --color-peach: #ebb39b;
+  --color-peach-soft: #f6e2d8;
+  --color-peach-deep: #9c5a42;
+  --color-sky: #d9e6ee;
+  --color-gold: #b08d57;
+  --color-stone: #6f655f;
+  --color-line: #e4dad0;
+  --color-whatsapp: #1fa855;
+
+  --font-display: var(--font-bodoni), "Didot", "Bodoni 72", Georgia, serif;
+  --font-sans: var(--font-jost), "Futura", system-ui, sans-serif;
+
+  --ease-editorial: cubic-bezier(0.2, 0.7, 0.1, 1);
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+@utility btn {
+  @apply inline-flex items-center justify-center gap-3 px-8 py-4 text-[12px] font-medium uppercase tracking-[0.24em] transition-all duration-500;
+  transition-timing-function: var(--ease-editorial);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-tap-highlight-color: transparent;
+  }
+  body {
+    @apply bg-porcelain text-ink font-sans antialiased;
+    font-feature-settings: "kern", "liga";
+  }
+  ::selection {
+    @apply bg-peach text-ink;
+  }
+  :focus-visible {
+    outline: 1.5px solid var(--color-ink);
+    outline-offset: 3px;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@utility container-x {
+  @apply mx-auto w-full max-w-[1440px] px-5 md:px-[6vw];
+}
+
+/* Algarismos legíveis no itálico da Bodoni (evita "G1" parecer "GI") */
+.num {
+  font-family: var(--font-jost), system-ui, sans-serif;
+  font-style: normal;
+  font-weight: 300;
+  font-size: 0.86em;
+  letter-spacing: -0.02em;
+}
+
+@layer components {
+  .eyebrow {
+    @apply text-[11px] font-medium uppercase tracking-[0.28em] text-stone;
+  }
+  .display {
+    @apply font-display font-normal leading-[0.98] tracking-[-0.02em];
+  }
+  /* Selo com a moldura fina do logo Camis */
+  .seal {
+    @apply inline-flex items-center border border-current px-3 py-1.5 text-[10px] font-medium uppercase tracking-[0.3em];
+  }
+  .link-underline {
+    @apply relative inline-block;
+  }
+  .link-underline::after {
+    content: "";
+    @apply absolute bottom-[-3px] left-0 h-px w-full origin-left scale-x-0 bg-current transition-transform duration-500;
+    transition-timing-function: var(--ease-editorial);
+  }
+  .link-underline:hover::after,
+  .link-underline[aria-current="page"]::after {
+    @apply scale-x-100;
+  }
+  .btn-dark {
+    @apply btn bg-ink text-porcelain hover:bg-peach-deep;
+  }
+  .btn-outline {
+    @apply btn border border-ink text-ink hover:bg-ink hover:text-porcelain;
+  }
+  .btn-light {
+    @apply btn bg-porcelain text-ink hover:bg-peach;
+  }
+  .btn-wa {
+    @apply btn rounded-full bg-whatsapp text-white hover:brightness-95;
+  }
+  .img-zoom img {
+    @apply transition-transform duration-[1400ms];
+    transition-timing-function: var(--ease-editorial);
+  }
+  .img-zoom:hover img {
+    transform: scale(1.04);
+  }
+}
+
+/* Revelação ao rolar */
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.9s var(--ease-editorial), transform 0.9s var(--ease-editorial);
+  transition-delay: var(--delay, 0ms);
+}
+.reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+@keyframes kenburns {
+  from { transform: scale(1.08); }
+  to { transform: scale(1); }
+}
+.kenburns {
+  animation: kenburns 2.4s var(--ease-editorial) both;
+}
+
+@keyframes marquee {
+  to { transform: translateX(-50%); }
+}
+.marquee {
+  animation: marquee 40s linear infinite;
+}
+
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { scrollbar-width: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation: none !important;
+    transition: none !important;
+    scroll-behavior: auto !important;
+  }
+  .reveal { opacity: 1; transform: none; }
 }

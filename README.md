@@ -1,36 +1,42 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# A Moda Camis: vitrine digital
 
-## Getting Started
+Next.js 15 (App Router) · TypeScript · Tailwind CSS 4 · Supabase.
+Direção de arte e análise da marca: [DESIGN.md](DESIGN.md).
 
-First, run the development server:
+## Rodar
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
+npm run dev   # http://localhost:3000
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Sem Supabase configurado, o site usa o conteúdo de `src/lib/seed.ts` (levantado do Instagram).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Variáveis de ambiente (`.env.local`)
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+| Variável | Para quê |
+|---|---|
+| `NEXT_PUBLIC_SUPABASE_URL` / `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Banco, imagens e login do painel |
+| `NEXT_PUBLIC_SITE_URL` | Domínio final (metadados, sitemap) |
+| `NEXT_PUBLIC_GA_ID` | Google Analytics 4 (opcional) |
+| `NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION` | Verificação do Google Search Console |
 
-## Learn More
+## Supabase
 
-To learn more about Next.js, take a look at the following resources:
+1. Crie um projeto e rode `supabase/schema.sql` no SQL Editor.
+2. Cadastre as usuárias da equipe em Authentication e adicione o `user_id` em `public.admins`.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Status (etapa 1)
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- [x] Análise da marca e direção de arte
+- [x] HOME completa, sacola de interesse e mensagens de WhatsApp
+- [x] SEO base: metadados, Open Graph, JSON-LD de loja, sitemap e robots
+- [ ] Vitrine com filtros, página de produto com zoom e páginas de coleção
+- [ ] Sobre e Contato
+- [ ] Painel administrativo (login com Supabase Auth, CRUD e upload de imagens)
 
-## Deploy on Vercel
+## Pendências da loja
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- Logo vetorial (SVG/PDF), endereço completo, história e valores da marca
+- Preços, tamanhos e nomes confirmados das peças
+- Confirmação de direitos de uso das fotos de campanha das marcas fornecedoras
